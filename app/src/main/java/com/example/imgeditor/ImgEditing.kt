@@ -1,16 +1,18 @@
 package com.example.imgeditor
 
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import com.example.imgeditor.databinding.ActivityImgEditingBinding
 
 
 class ImgEditing : AppCompatActivity() {
 
     private lateinit var binding:ActivityImgEditingBinding
-    var bitmap: Bundle? =null
+    var imageUri: Uri? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,6 +28,11 @@ class ImgEditing : AppCompatActivity() {
                 intent.getByteArrayExtra("byteArray")!!.size
             )
             _imv.setImageBitmap(_bitmap)
+        }
+
+        if(intent.hasExtra("theuri")){
+            imageUri = Uri.parse(intent.getStringExtra("theuri"))
+            binding.imageView.setImageURI(imageUri)
         }
 
     }
