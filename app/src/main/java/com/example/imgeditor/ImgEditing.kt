@@ -3,10 +3,13 @@ package com.example.imgeditor
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
+import androidx.fragment.app.Fragment
 import com.example.imgeditor.databinding.ActivityImgEditingBinding
+import com.google.android.material.navigation.NavigationBarView
 
 
 class ImgEditing : AppCompatActivity() {
@@ -32,8 +35,31 @@ class ImgEditing : AppCompatActivity() {
 
         if(intent.hasExtra("theuri")){
             imageUri = Uri.parse(intent.getStringExtra("theuri"))
-            binding.imageView.setImageURI(imageUri)
+            val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, imageUri)
+            binding.imageView.setImageBitmap(bitmap)
+            //binding.imageView.setImageURI(imageUri)
         }
 
+        val rotateFragment= RotateFragment()
+        val sharpenFragment=SharpenFragment()
+        val filterFragment=FilterFragment()
+
+        setCurrentFragment(sharpenFragment)
+
+
+        binding.bottomNavigationView.setOnNavigationItemSelectedListener{
+            when(it.itemId){
+                R.id.miRotate->setCurrentFragment(rotateFragment)
+                R.id.miSharpen->setCurrentFragment(sharpenFragment)
+                R.id.miFilter->setCurrentFragment(filterFragment)
+            }
+            true
+        }
+
+    }
+
+    private fun setCurrentFragment(fragment:Fragment)=supportFragmentManager.beginTransaction().apply {
+        replace(R.id.flFragment,fragment)
+        commit()
     }
 }

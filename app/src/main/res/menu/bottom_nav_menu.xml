@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/miRotate"
+        android:title="Rotate"
+        android:icon="@drawable/ic_rotate_foreground"/>
+
+    <item
+        android:id="@+id/miSharpen"
+        android:title="Sharpen"
+        android:icon="@drawable/ic_sharpen_foreground"/>
+
+    <item
+        android:id="@+id/miFilter"
+        android:title="Filter"
+        android:icon="@drawable/ic_filter_foreground"/>
+</menu>
