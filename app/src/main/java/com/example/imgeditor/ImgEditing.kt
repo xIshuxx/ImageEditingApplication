@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.imgeditor.databinding.ActivityImgEditingBinding
@@ -51,7 +52,6 @@ class ImgEditing : AppCompatActivity() {
             }
             true
         }
-
     }
 
     private fun setCurrentFragment(fragment:Fragment)=supportFragmentManager.beginTransaction().apply {

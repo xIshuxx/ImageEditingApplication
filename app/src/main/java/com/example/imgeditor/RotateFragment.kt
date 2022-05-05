@@ -33,13 +33,16 @@ class RotateFragment(imgEditing: ImgEditing) :Fragment(){
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view= inflater.inflate(R.layout.fragment_rotate,container,false)
-        val btn= view?.findViewById<Button>(R.id.BtnRotate)
+        return inflater.inflate(R.layout.fragment_rotate,container,false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val btn= view.findViewById<Button>(R.id.BtnRotate)
         btn?.setOnClickListener {
 
             activity.binding.imageView.setImageBitmap(rotateImage90deg())
         }
-        return view
     }
 
     private fun rotateImage90deg():Bitmap{
