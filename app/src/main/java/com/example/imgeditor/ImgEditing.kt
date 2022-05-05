@@ -1,22 +1,19 @@
 package com.example.imgeditor
 
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import com.example.imgeditor.databinding.ActivityImgEditingBinding
-import com.google.android.material.navigation.NavigationBarView
-
 
 class ImgEditing : AppCompatActivity() {
 
-    private lateinit var binding:ActivityImgEditingBinding
+    lateinit var binding:ActivityImgEditingBinding
     var imageUri: Uri? = null
-
+    var bitmap:Bitmap?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,27 +22,26 @@ class ImgEditing : AppCompatActivity() {
 
         if (intent.hasExtra("byteArray")) {
             val _imv = binding.imageView
-            val _bitmap = BitmapFactory.decodeByteArray(
+                bitmap = BitmapFactory.decodeByteArray(
                 intent.getByteArrayExtra("byteArray"),
                 0,
                 intent.getByteArrayExtra("byteArray")!!.size
             )
-            _imv.setImageBitmap(_bitmap)
+            _imv.setImageBitmap(bitmap)
         }
 
         if(intent.hasExtra("theuri")){
             imageUri = Uri.parse(intent.getStringExtra("theuri"))
-            val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, imageUri)
+            bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, imageUri)
             binding.imageView.setImageBitmap(bitmap)
             //binding.imageView.setImageURI(imageUri)
         }
 
-        val rotateFragment= RotateFragment()
-        val sharpenFragment=SharpenFragment()
+        val rotateFragment= RotateFragment(this)
+        val sharpenFragment=SharpenFragment(this)
         val filterFragment=FilterFragment()
 
         setCurrentFragment(sharpenFragment)
-
 
         binding.bottomNavigationView.setOnNavigationItemSelectedListener{
             when(it.itemId){
@@ -62,4 +58,7 @@ class ImgEditing : AppCompatActivity() {
         replace(R.id.flFragment,fragment)
         commit()
     }
+
+
 }
+
