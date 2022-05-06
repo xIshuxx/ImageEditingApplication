@@ -1,16 +1,26 @@
 package com.example.imgeditor
+import android.graphics.Color.*
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import androidx.core.view.drawToBitmap
 import androidx.fragment.app.Fragment
+import kotlin.math.min
 
 class FilterFragment(imgEditing: ImgEditing) :Fragment(){
 
     private var activity=imgEditing
+    var pixelArray: IntArray? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        activity.binding.imageView.drawToBitmap().let{
+            pixelArray = IntArray(it.width * it.height)
+            it.getPixels(pixelArray, 0, it.width, 0, 0, it.width, it.height)
+        }
+
     }
 
     override fun onCreateView(
@@ -23,8 +33,59 @@ class FilterFragment(imgEditing: ImgEditing) :Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val btn= view.findViewById<Button>(R.id.BtnInvertfilter)
+        btn.setOnClickListener {
+            applyFilter(ColorMatrices.Inverted)
+        }
 
     }
+    private fun changePixelColor(pixel: Int, matrix: FloatArray): Int {
+
+        val a: Int = alpha(pixel)
+        val r: Int = red(pixel)
+        val g: Int = green(pixel)
+        val b: Int = blue(pixel)
+
+        val newA: Int =
+            min(
+                (a * matrix[0 * 5 + 0] + r * matrix[0 * 5 + 1] + g * matrix[0 * 5 + 2] + b * matrix[0 * 5 + 3] + matrix[0 * 5 + 4]).toInt(),
+                255
+            )
+        val newR: Int =
+            min(
+                (a * matrix[1 * 5 + 0] + r * matrix[1 * 5 + 1] + g * matrix[1 * 5 + 2] + b * matrix[1 * 5 + 3] + matrix[1 * 5 + 4]).toInt(),
+                255
+            )
+        val newG: Int =
+            min(
+                (a * matrix[2 * 5 + 0] + r * matrix[2 * 5 + 1] + g * matrix[2 * 5 + 2] + b * matrix[2 * 5 + 3] + matrix[2 * 5 + 4]).toInt(),
+                255
+            )
+        val newB: Int =
+            min(
+                (a * matrix[3 * 5 + 0] + r * matrix[3 * 5 + 1] + g * matrix[3 * 5 + 2] + b * matrix[3 * 5 + 3] + matrix[3 * 5 + 4]).toInt(),
+                255
+            )
+
+        return argb(newA, newR, newG, newB)
+    }
+
+    private fun applyFilter(colorMatrix: ColorMatrices) {
+        pixelArray.let {
+            if (it != null) {
+                for (pixelIndex in it.indices) {
+                    it.set(pixelIndex, changePixelColor(it[pixelIndex], colorMatrix.matrix))
+                }
+            }
+        }
+        activity.binding.imageView.drawToBitmap().let {
+            it.setPixels(pixelArray, 0, it.width, 0, 0, it.width, it.height)
+            activity.binding.imageView.setImageBitmap(it)
+        }
+
+    }
+
+
 
 
 
