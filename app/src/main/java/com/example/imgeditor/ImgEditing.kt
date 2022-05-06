@@ -40,7 +40,7 @@ class ImgEditing : AppCompatActivity() {
 
         val rotateFragment= RotateFragment(this)
         val sharpenFragment=SharpenFragment(this)
-        val filterFragment=FilterFragment()
+        val filterFragment=FilterFragment(this)
 
         setCurrentFragment(sharpenFragment)
 
