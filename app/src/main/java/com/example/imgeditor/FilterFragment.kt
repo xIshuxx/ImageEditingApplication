@@ -33,10 +33,23 @@ class FilterFragment(imgEditing: ImgEditing) :Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val btn= view.findViewById<Button>(R.id.BtnInvertfilter)
-        btn.setOnClickListener {
+        val btninvert= view.findViewById<Button>(R.id.BtnInvertfilter)
+        val btnsepia= view.findViewById<Button>(R.id.Btnsepiafilter)
+        val btnagbr= view.findViewById<Button>(R.id.Btnagbrfilter)
+        val btngray= view.findViewById<Button>(R.id.BtnGrayfilter)
+        btninvert.setOnClickListener {
             applyFilter(ColorMatrices.Inverted)
         }
+        btnagbr.setOnClickListener {
+            applyFilter(ColorMatrices.AGBR)
+        }
+        btngray.setOnClickListener {
+            applyFilter(ColorMatrices.BlackAndWhite)
+        }
+        btnsepia.setOnClickListener {
+            applyFilter(ColorMatrices.Sepia)
+        }
+
 
     }
     private fun changePixelColor(pixel: Int, matrix: FloatArray): Int {
