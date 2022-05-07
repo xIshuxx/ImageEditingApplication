@@ -59,7 +59,7 @@ class SharpenFragment(imgEditing: ImgEditing) :Fragment(){
         amount= seekbarAmount.progress.toFloat()
         radius= seekbarRadius.progress.toFloat()
         threshold=seekbarThreshold.progress
-        var original:Bitmap= activity.binding.imageView.drawToBitmap()
+        var original:Bitmap= activity.bitmap!!
         //var blurred:Bitmap= fastBlur(original,1f,10)!!
         var blurred:Bitmap= blur(original,radius)
         var sharpened:Bitmap = addImages(original,

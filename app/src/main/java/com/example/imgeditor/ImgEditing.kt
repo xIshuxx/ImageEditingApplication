@@ -22,7 +22,7 @@ class ImgEditing : AppCompatActivity() {
         setContentView(binding.imgediting)
 
         if (intent.hasExtra("byteArray")) {
-            val _imv = binding.imageView
+                val _imv = binding.imageView
                 bitmap = BitmapFactory.decodeByteArray(
                 intent.getByteArrayExtra("byteArray"),
                 0,
@@ -52,6 +52,8 @@ class ImgEditing : AppCompatActivity() {
             }
             true
         }
+
+
     }
 
     private fun setCurrentFragment(fragment:Fragment)=supportFragmentManager.beginTransaction().apply {

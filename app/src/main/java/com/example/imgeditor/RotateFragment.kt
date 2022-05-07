@@ -19,7 +19,7 @@ class RotateFragment(imgEditing: ImgEditing) :Fragment(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        org= activity.binding.imageView.drawToBitmap()
+
     }
 
     override fun onCreateView(
@@ -34,11 +34,12 @@ class RotateFragment(imgEditing: ImgEditing) :Fragment(){
         super.onViewCreated(view, savedInstanceState)
         val btn= view.findViewById<Button>(R.id.BtnRotate)
         btn?.setOnClickListener {
-            activity.binding.imageView.setImageBitmap(rotateImage90deg())
+            org= activity.bitmap!!
+            activity.binding.imageView.setImageBitmap(rotateImage90deg(org))
         }
     }
 
-    private fun rotateImage90deg():Bitmap{
+    private fun rotateImage90deg(org:Bitmap):Bitmap{
 
         var rotated:Bitmap
         counter +=90

@@ -1,4 +1,5 @@
 package com.example.imgeditor
+import android.graphics.Bitmap
 import android.graphics.Color.*
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,14 +13,17 @@ import kotlin.math.min
 class FilterFragment(imgEditing: ImgEditing) :Fragment(){
 
     private var activity=imgEditing
-    var pixelArray: IntArray? = null
+    private var pixelArray: IntArray? = null
+    private lateinit var bm:Bitmap
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        activity.binding.imageView.drawToBitmap().let{
+        bm= activity.bitmap!!.copy(activity.bitmap!!.config,true)
+        bm.let{
             pixelArray = IntArray(it.width * it.height)
             it.getPixels(pixelArray, 0, it.width, 0, 0, it.width, it.height)
         }
+
 
     }
 
@@ -33,6 +37,8 @@ class FilterFragment(imgEditing: ImgEditing) :Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
         val btninvert= view.findViewById<Button>(R.id.BtnInvertfilter)
         val btnsepia= view.findViewById<Button>(R.id.Btnsepiafilter)
         val btnagbr= view.findViewById<Button>(R.id.Btnagbrfilter)
@@ -91,9 +97,11 @@ class FilterFragment(imgEditing: ImgEditing) :Fragment(){
                 }
             }
         }
-        activity.binding.imageView.drawToBitmap().let {
+
+        bm.let {
             it.setPixels(pixelArray, 0, it.width, 0, 0, it.width, it.height)
             activity.binding.imageView.setImageBitmap(it)
+            activity.bitmap=it
         }
 
     }
