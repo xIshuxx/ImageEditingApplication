@@ -7,13 +7,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.SeekBar
 import androidx.core.view.drawToBitmap
 import androidx.fragment.app.Fragment
+import com.example.imgeditor.databinding.FragmentSharpenBinding
 
 
 class SharpenFragment(imgEditing: ImgEditing) :Fragment(){
-
+    private lateinit var binding: FragmentSharpenBinding
     private var activity=imgEditing
+    private var amount:Float = 50f
+    private var radius:Float= 10f
+    private var threshold:Int= 20
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,18 +35,35 @@ class SharpenFragment(imgEditing: ImgEditing) :Fragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val btn= view.findViewById<Button>(R.id.BtnSharpen)
+        val seekbarAmount= view.findViewById<SeekBar>(R.id.seekBarAmount)
+        val seekbarRadius=view.findViewById<SeekBar>(R.id.seekBarRadius)
+        val seekbarThreshold=view.findViewById<SeekBar>(R.id.seekBarThreshold)
+        seekbarAmount.max=100
+        seekbarRadius.max=10
+        seekbarThreshold.max=255
+
+        seekbarAmount.setProgress(amount.toInt())
+        seekbarRadius.setProgress(radius.toInt())
+        seekbarThreshold.setProgress(threshold)
+
         btn?.setOnClickListener {
             Log.d("test","print this shit")
-            activity.binding.imageView.setImageBitmap(sharpenImage())
+            activity.binding.imageView.setImageBitmap(sharpenImage(view))
         }
     }
 
-    fun sharpenImage():Bitmap{
+    fun sharpenImage(view: View):Bitmap{
+        val seekbarAmount= view.findViewById<SeekBar>(R.id.seekBarAmount)
+        val seekbarRadius=view.findViewById<SeekBar>(R.id.seekBarRadius)
+        val seekbarThreshold=view.findViewById<SeekBar>(R.id.seekBarThreshold)
+        amount= seekbarAmount.progress.toFloat()
+        radius= seekbarRadius.progress.toFloat()
+        threshold=seekbarThreshold.progress
         var original:Bitmap= activity.binding.imageView.drawToBitmap()
         //var blurred:Bitmap= fastBlur(original,1f,10)!!
-        var blurred:Bitmap= blur(original,10f)
+        var blurred:Bitmap= blur(original,radius)
         var sharpened:Bitmap = addImages(original,
-        filteredImage(original,blurred,50f, 20 ))
+        filteredImage(original,blurred,amount, threshold ))
 
         return sharpened
     }

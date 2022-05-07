@@ -14,11 +14,11 @@
         android:text="Sharpen"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/seekBar5"
+        app:layout_constraintStart_toEndOf="@+id/seekBarAmount"
         app:layout_constraintTop_toTopOf="parent" />
 
     <SeekBar
-        android:id="@+id/seekBar5"
+        android:id="@+id/seekBarAmount"
         android:layout_width="144dp"
         android:layout_height="19dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -28,21 +28,21 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <SeekBar
-        android:id="@+id/seekBarAmount"
+        android:id="@+id/seekBarThreshold"
         android:layout_width="145dp"
         android:layout_height="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.417"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seekBar5"
+        app:layout_constraintTop_toBottomOf="@+id/seekBarAmount"
         app:layout_constraintVertical_bias="0.02" />
 
     <SeekBar
-        android:id="@+id/seekBar6"
+        android:id="@+id/seekBarRadius"
         android:layout_width="143dp"
         android:layout_height="21dp"
-        app:layout_constraintBottom_toTopOf="@+id/seekBar5"
+        app:layout_constraintBottom_toTopOf="@+id/seekBarAmount"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.414"
         app:layout_constraintStart_toStartOf="parent"
@@ -55,7 +55,7 @@
         android:layout_height="wrap_content"
         android:text="Amount"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/seekBar5"
+        app:layout_constraintEnd_toStartOf="@+id/seekBarAmount"
         app:layout_constraintHorizontal_bias="0.714"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -66,7 +66,7 @@
         android:layout_height="wrap_content"
         android:text="Threshold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/seekBarAmount"
+        app:layout_constraintEnd_toStartOf="@+id/seekBarThreshold"
         app:layout_constraintHorizontal_bias="0.687"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
@@ -78,7 +78,7 @@
         android:layout_height="wrap_content"
         android:text="Radius"
         app:layout_constraintBottom_toTopOf="@+id/textView2"
-        app:layout_constraintEnd_toStartOf="@+id/seekBar6"
+        app:layout_constraintEnd_toStartOf="@+id/seekBarRadius"
         app:layout_constraintHorizontal_bias="0.735"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
