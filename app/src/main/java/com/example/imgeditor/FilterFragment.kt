@@ -15,16 +15,11 @@ class FilterFragment(imgEditing: ImgEditing) :Fragment(){
     private var activity=imgEditing
     private var pixelArray: IntArray? = null
     private lateinit var bm:Bitmap
+    private lateinit var org:Bitmap
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        bm= activity.bitmap!!.copy(activity.bitmap!!.config,true)
-        bm.let{
-            pixelArray = IntArray(it.width * it.height)
-            it.getPixels(pixelArray, 0, it.width, 0, 0, it.width, it.height)
-        }
-
-
+        org = activity.bitmap!!.copy(activity.bitmap!!.config,true)
     }
 
     override fun onCreateView(
@@ -43,6 +38,7 @@ class FilterFragment(imgEditing: ImgEditing) :Fragment(){
         val btnsepia= view.findViewById<Button>(R.id.Btnsepiafilter)
         val btnagbr= view.findViewById<Button>(R.id.Btnagbrfilter)
         val btngray= view.findViewById<Button>(R.id.BtnGrayfilter)
+        val btnreset= view.findViewById<Button>(R.id.BtnReset)
         btninvert.setOnClickListener {
             applyFilter(ColorMatrices.Inverted)
         }
@@ -55,6 +51,11 @@ class FilterFragment(imgEditing: ImgEditing) :Fragment(){
         btnsepia.setOnClickListener {
             applyFilter(ColorMatrices.Sepia)
         }
+        btnreset.setOnClickListener{
+            activity.binding.imageView.setImageBitmap(org)
+            activity.bitmap=org
+        }
+
 
 
     }
@@ -90,6 +91,11 @@ class FilterFragment(imgEditing: ImgEditing) :Fragment(){
     }
 
     private fun applyFilter(colorMatrix: ColorMatrices) {
+        bm= org.copy(org.config,true)
+        bm.let{
+            pixelArray = IntArray(it.width * it.height)
+            it.getPixels(pixelArray, 0, it.width, 0, 0, it.width, it.height)
+        }
         pixelArray.let {
             if (it != null) {
                 for (pixelIndex in it.indices) {
@@ -97,7 +103,6 @@ class FilterFragment(imgEditing: ImgEditing) :Fragment(){
                 }
             }
         }
-
         bm.let {
             it.setPixels(pixelArray, 0, it.width, 0, 0, it.width, it.height)
             activity.binding.imageView.setImageBitmap(it)

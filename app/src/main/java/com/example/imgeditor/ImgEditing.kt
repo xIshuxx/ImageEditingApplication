@@ -42,7 +42,7 @@ class ImgEditing : AppCompatActivity() {
         val sharpenFragment=SharpenFragment(this)
         val filterFragment=FilterFragment(this)
 
-        setCurrentFragment(sharpenFragment)
+        setCurrentFragment(rotateFragment)
 
         binding.bottomNavigationView.setOnNavigationItemSelectedListener{
             when(it.itemId){
