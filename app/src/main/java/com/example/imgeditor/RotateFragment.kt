@@ -7,8 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import androidx.core.view.drawToBitmap
 import androidx.fragment.app.Fragment
+import org.w3c.dom.Text
 
 
 class RotateFragment(imgEditing: ImgEditing) :Fragment(){
@@ -33,18 +35,27 @@ class RotateFragment(imgEditing: ImgEditing) :Fragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val btn= view.findViewById<Button>(R.id.BtnRotate)
+        val rtText= view.findViewById<TextView>(R.id.rotateText)
         btn?.setOnClickListener {
             org= activity.bitmap!!
-            activity.binding.imageView.setImageBitmap(rotateImage90deg(org))
+            val str = rtText.text.toString()
+            val num:Number
+            if(str.isNotEmpty()){
+                num= str.toInt()
+            }else{
+                num= 0
+            }
+
+            activity.binding.imageView.setImageBitmap(rotateImage90deg(org,num))
         }
     }
 
-    private fun rotateImage90deg(org:Bitmap):Bitmap{
+    private fun rotateImage90deg(org:Bitmap, num:Int):Bitmap{
 
         var rotated:Bitmap
-        counter +=90
-        if(counter==360f){
-            counter=0f
+        counter += num
+        if(counter>=360f){
+            counter -= 360
         }
         val matrix = Matrix()
         matrix.postRotate(counter)
